@@ -1,5 +1,6 @@
 import './App.css';
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react';
+import { Button, EditableText } from '@blueprintjs/core';
 
 function App() {
   const [User, setUser] = useState([]);
@@ -22,13 +23,16 @@ function App() {
           <th>Action</th>
         </thead>
         <tbody>
-          {User.map((getUser) => 
+          {User.map((getUser) =>
             <tr key={getUser.id}>
               <td>{getUser.id}</td>
               <td>{getUser.name}</td>
-              <td>{getUser.email}</td>
-              <td>{getUser.website}</td>
-              <td>Edit Delete</td>
+              <td><EditableText value={getUser.email} /></td>
+              <td><EditableText value={getUser.website} /></td>
+              <td>
+                <Button intent='primary'>Edit</Button>
+                <Button intent='danger'>Delete</Button>
+              </td>
             </tr>
           )}
         </tbody>
