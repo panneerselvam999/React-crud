@@ -1,23 +1,24 @@
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <table className="bp4-html-table modifier">
+        <thead>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Email</th>
+          <th>WebSite</th>
+          <th>Action</th>
+        </thead>
+        <tbody>
+          <td>1</td>
+          <td>Panneer</td>
+          <td>panneer@gmail.com</td>
+          <td>www.panneer.com</td>
+          <td>Edit Delete</td>
+        </tbody>
+      </table>
     </div>
   );
 }
