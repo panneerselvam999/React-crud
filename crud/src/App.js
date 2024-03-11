@@ -45,11 +45,43 @@ function App() {
             intent: "success",
             timeout: 3000
           })
+          setnewName("")
+          setnewMail("")
+          setnewWebsite("")
         })
 
     }
   }
 
+  function onChangeHandle(gid, key, value) {
+    setUser((users) => {
+      return users.map((user) => {
+        return user.id === gid ? { ...user, [key]: value } : user;
+      })
+    })
+  }
+
+  function updateUser(gid) {
+    const changeUser = User.find((gUser) => gUser.id === gid)
+    fetch(`https://jsonplaceholder.typicode.com/users/${gid}`,
+      {
+        method: "POST",
+        body: JSON.stringify(changeUser),
+        headers: {
+          "Content-type": "application/json; charset=UTF-8" // Fix the header syntax
+        }
+      })
+      .then((res) => res.json())
+      .then((data) => {
+        appToster.show({
+          message: "User Update successfully",
+          intent: "success",
+          timeout: 3000
+        })
+
+      })
+
+  }
 
   return (
     <div className="App">
@@ -65,11 +97,11 @@ function App() {
           {User.map((getUser) =>
             <tr key={getUser.id}>
               <td>{getUser.id}</td>
-              <td><EditableText value={getUser.name} /></td>
-              <td><EditableText value={getUser.email} /></td>
-              <td><EditableText value={getUser.website} /></td>
+              <td>{getUser.name}</td>
+              <td><EditableText onChange={(value) => { onChangeHandle(getUser.id, "email", value) }} value={getUser.email} /></td>
+              <td><EditableText onChange={(value) => { onChangeHandle(getUser.id, "website", value) }} value={getUser.website} /></td>
               <td>
-                <Button intent='primary'>Edit</Button>
+                <Button onClick={() => updateUser(getUser.id)} intent='primary'>Update</Button>
                 <Button intent='danger'>Delete</Button>
               </td>
             </tr>
