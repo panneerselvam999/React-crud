@@ -1,6 +1,16 @@
 import './App.css';
+import { useEffect, useState } from 'react'
 
 function App() {
+  const [User, setUser] = useState([]);
+
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then((res) => res.json())
+      .then((json) => setUser(json))
+  }, [])
+
+
   return (
     <div className="App">
       <table className="bp4-html-table modifier">
@@ -12,11 +22,15 @@ function App() {
           <th>Action</th>
         </thead>
         <tbody>
-          <td>1</td>
-          <td>Panneer</td>
-          <td>panneer@gmail.com</td>
-          <td>www.panneer.com</td>
-          <td>Edit Delete</td>
+          {User.map((getUser) => 
+            <tr key={getUser.id}>
+              <td>{getUser.id}</td>
+              <td>{getUser.name}</td>
+              <td>{getUser.email}</td>
+              <td>{getUser.website}</td>
+              <td>Edit Delete</td>
+            </tr>
+          )}
         </tbody>
       </table>
     </div>
