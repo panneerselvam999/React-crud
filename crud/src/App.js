@@ -1,6 +1,10 @@
 import './App.css';
 import { useEffect, useState } from 'react';
-import { Button, EditableText, InputGroup } from '@blueprintjs/core';
+import { Button, EditableText, InputGroup, Toaster } from '@blueprintjs/core';
+
+const appToster = Toaster.create({
+  position: "top"
+})
 
 function App() {
   const [User, setUser] = useState([]);
@@ -12,7 +16,39 @@ function App() {
     fetch("https://jsonplaceholder.typicode.com/users")
       .then((res) => res.json())
       .then((json) => setUser(json))
-  }, [])
+  }, []);
+
+  function addUser() {
+    const name = newName.trim()
+    const email = newMail.trim()
+    const website = newWebsite.trim()
+
+    if (name && email && website) {
+      fetch("https://jsonplaceholder.typicode.com/users",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            name,
+            email,
+            website
+          }),
+          headers: {
+            "Content-type": "application/json; charset=UTF-8" // Fix the header syntax
+
+          }
+        })
+        .then((res) => res.json())
+        .then((data) => {
+          setUser([...User, data]);
+          appToster.show({
+            message: "User add successfully",
+            intent: "success",
+            timeout: 3000
+          })
+        })
+
+    }
+  }
 
 
   return (
@@ -64,6 +100,7 @@ function App() {
                 placeholder='Enter website'
               />
             </td>
+            <td><Button intent='success' onClick={addUser}>add</Button></td>
           </tr>
 
         </tfoot>
